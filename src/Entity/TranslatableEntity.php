@@ -8,6 +8,7 @@ use EnderLab\TranslatableEntityBundle\Services\CurrentLocaleService;
 use Exception;
 use JetBrains\PhpStorm\Pure;
 use ReflectionClass;
+use ReflectionProperty;
 
 abstract class TranslatableEntity
 {
@@ -27,15 +28,12 @@ abstract class TranslatableEntity
         return CurrentLocaleService::getFallbackLocale();
     }
 
-    /**
-     * @throws Exception
-     */
     public function __get(string $property)
     {
         $this->initAttributes();
         $locale = $this->getCurrentLocale();
 
-        $regex  = '/^('.(implode('|', $this->attributes)).'|'.(implode('|', array_map('ucfirst', $this->attributes))).')';
+        $regex  = '/^('.(implode('|', array_keys($this->attributes))).'|'.(implode('|', array_map('ucfirst', array_keys($this->attributes)))).')';
         $regex .= '([A-Z][a-z])?$/';
         preg_match_all($regex, $property, $matches);
 
@@ -58,15 +56,12 @@ abstract class TranslatableEntity
         return $this->getValue($locale, $property);
     }
 
-    /**
-     * @throws Exception
-     */
     public function __set(string $property, mixed $value)
     {
         $this->initAttributes();
         $locale = $this->getCurrentLocale();
 
-        $regex  = '/^('.(implode('|', $this->attributes)).'|'.(implode('|', array_map('ucfirst', $this->attributes))).')';
+        $regex  = '/^('.(implode('|', array_keys($this->attributes))).'|'.(implode('|', array_map('ucfirst', array_keys($this->attributes)))).')';
         $regex .= '([A-Z][a-z])?$/';
         preg_match_all($regex, $property, $matches);
 
@@ -108,7 +103,7 @@ abstract class TranslatableEntity
         $locale = $this->getCurrentLocale();
 
         $regex  = '/^(get|set)?';
-        $regex .= '('.(implode('|', $this->attributes)).'|'.(implode('|', array_map('ucfirst', $this->attributes))).')';
+        $regex .= '('.(implode('|', array_keys($this->attributes))).'|'.(implode('|', array_map('ucfirst', array_keys($this->attributes)))).')';
         $regex .= '([A-Z][a-z])?$/';
         preg_match_all($regex, $name, $matches);
 
@@ -145,17 +140,16 @@ abstract class TranslatableEntity
             }
         }
 
-        switch ($prefix) {
-            case 'get':
-                return $this->getValue($locale, $property);
-            case 'set':
-                return $this->setValue($locale, $property, $arguments[0]);
-        }
+        return match ($prefix) {
+            'get' => $this->getValue($locale, $property),
+            'set' => $this->setValue($locale, $property, $arguments[0]),
+            default => null,
+        };
     }
 
     private function attributeExists($name): bool
     {
-        if (in_array($name, $this->attributes)) {
+        if (array_key_exists($name, $this->attributes)) {
             return true;
         }
 
@@ -164,7 +158,11 @@ abstract class TranslatableEntity
 
     private function getValue($locale, $property): string
     {
-        $data = $this->{$property};
+        /** @var ReflectionProperty $reflectionProperty */
+        $reflectionProperty = $this->attributes[$property];
+        $reflectionProperty->setAccessible(true);
+
+        $data = $reflectionProperty->getValue($this);
 
         if (!isset($data[$locale])) {
             if ($_ENV['APP_ENV'] === 'dev') {
@@ -179,10 +177,14 @@ abstract class TranslatableEntity
 
     private function setValue($locale, $property, $value): self
     {
-        $data = $this->{$property};
+        /** @var ReflectionProperty $reflectionProperty */
+        $reflectionProperty = $this->attributes[$property];
+        $reflectionProperty->setAccessible(true);
+
+        $data = $reflectionProperty->getValue($this);
         $data[$locale] = $value;
 
-        $this->{$property} = $data;
+        $reflectionProperty->setValue($this, $data);
 
         return $this;
     }
@@ -194,7 +196,7 @@ abstract class TranslatableEntity
 
             foreach ($reflection->getProperties() as $property) {
                 if (count($property->getAttributes(TranslatableField::class)) > 0) {
-                    $this->attributes[] = $property->getName();
+                    $this->attributes[$property->getName()] = $property;
                 }
             }
 

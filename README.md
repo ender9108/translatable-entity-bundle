@@ -42,7 +42,6 @@ In your entity class
     * Declare translatable fields in json
 * Extends EnderLab\TranslatableEntityBundle\Entity\TranslatableEntity
 * Add attribute #[TranslatableField] on translatable field
-* Set translatable properties to protected
 * Remove getters and setters for translatable properties 
 
 ```diff
@@ -66,13 +65,11 @@ use EnderLab\TranslatableEntityBundle\Attributes\TranslatableField;
 
     #[ORM\Column]
 +   #[TranslatableField]
--   private array $name = [];
-+   protected array $name = [];
+    private array $name = [];
 
     #[ORM\Column]
 +   #[TranslatableField]
--   private array $description = [];
-+   protected array $description = [];
+    private array $description = [];
 
     public function getId(): ?int
     {
@@ -188,10 +185,12 @@ class ProductType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
+            # Display value on field with the current locale
             ->add('name', TextType::class, [
                 'required' => true,
                 'label' => 'Name'
             ])
+            # Display value on field with the current locale
             ->add('description', TextareaType::class, [
                 'required' => true,
                 'label' => 'Description'
