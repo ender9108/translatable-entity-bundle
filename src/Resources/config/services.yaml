@@ -10,5 +10,10 @@ services:
       - '../../Resources/'
       - '../../Tests/'
 
+  Symfony\Component\DependencyInjection\ContainerInterface: '@service_container'
+  use Symfony\Contracts\Translation\TranslatorInterface: '@identity_translator'
+
   EnderLab\TranslatableEntityBundle\EventSubscriber\LocaleSubscriber:
-    arguments: ['@service_container']
+    arguments:
+      - '@identity_translator'
+      - '@service_container'
