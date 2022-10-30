@@ -1,0 +1,1 @@
+# translatable-entity-bundle
