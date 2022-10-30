@@ -2,9 +2,9 @@
 
 namespace EnderLab\TranslatableEntityBundle\Entity;
 
-use EnderLab\TranslatableEntity\Attributes\TranslatableField;
-use EnderLab\TranslatableEntity\Exception\TranslatableException;
-use EnderLab\TranslatableEntity\Services\CurrentLocaleService;
+use EnderLab\TranslatableEntityBundle\Attributes\TranslatableField;
+use EnderLab\TranslatableEntityBundle\Exception\TranslatableException;
+use EnderLab\TranslatableEntityBundle\Services\CurrentLocaleService;
 use Exception;
 use JetBrains\PhpStorm\Pure;
 use ReflectionClass;

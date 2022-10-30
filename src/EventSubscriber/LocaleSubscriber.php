@@ -2,7 +2,7 @@
 
 namespace EnderLab\TranslatableEntityBundle\EventSubscriber;
 
-use EnderLab\TranslatableEntity\Services\CurrentLocaleService;
+use EnderLab\TranslatableEntityBundle\Services\CurrentLocaleService;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
