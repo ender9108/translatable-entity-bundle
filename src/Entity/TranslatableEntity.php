@@ -15,11 +15,6 @@ abstract class TranslatableEntity
     protected array $attributes = [];
     protected bool $initialized = false;
 
-    public function __construct()
-    {
-        $this->initAttributes();
-    }
-
     #[Pure]
     public function getCurrentLocale(): string
     {
@@ -37,7 +32,7 @@ abstract class TranslatableEntity
      */
     public function __get(string $property)
     {
-        //$this->initAttributes();
+        $this->initAttributes();
         $locale = $this->getCurrentLocale();
 
         $regex  = '/^('.(implode('|', $this->attributes)).'|'.(implode('|', array_map('ucfirst', $this->attributes))).')';
@@ -68,7 +63,7 @@ abstract class TranslatableEntity
      */
     public function __set(string $property, mixed $value)
     {
-        //$this->initAttributes();
+        $this->initAttributes();
         $locale = $this->getCurrentLocale();
 
         $regex  = '/^('.(implode('|', $this->attributes)).'|'.(implode('|', array_map('ucfirst', $this->attributes))).')';
@@ -107,8 +102,7 @@ abstract class TranslatableEntity
      */
     public function __call($name, $arguments)
     {
-        //$this->initAttributes();
-
+        $this->initAttributes();
         $prefix = null;
         $property = null;
         $locale = $this->getCurrentLocale();

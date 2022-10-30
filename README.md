@@ -42,6 +42,7 @@ In your entity class
     * Declare translatable fields in json
 * Extends EnderLab\TranslatableEntityBundle\Entity\TranslatableEntity
 * Add attribute #[TranslatableField] on translatable field
+* Set translatable properties to protected
 * Remove getters and setters for translatable properties 
 
 ```diff
@@ -64,12 +65,14 @@ use EnderLab\TranslatableEntityBundle\Attributes\TranslatableField;
     private ?int $id = null;
 
     #[ORM\Column]
-    #[TranslatableField]
-    protected array $name = [];
++   #[TranslatableField]
+-   private array $name = [];
++   protected array $name = [];
 
     #[ORM\Column]
 +   #[TranslatableField]
-    protected array $description = [];
+-   private array $description = [];
++   protected array $description = [];
 
     public function getId(): ?int
     {
@@ -103,7 +106,104 @@ use EnderLab\TranslatableEntityBundle\Attributes\TranslatableField;
 ```
 
 ## Use in your code
+```php
+# Product class
+<?php
+
+namespace App\Entity;
+
+use App\Repository\ProductRepository;
+use Doctrine\ORM\Mapping as ORM;
+use EnderLab\TranslatableEntityBundle\Attributes\TranslatableField;
+use EnderLab\TranslatableEntityBundle\Entity\TranslatableEntity;
+
+#[ORM\Entity(repositoryClass: ProductRepository::class)]
+class Product extends TranslatableEntity
+{
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column]
+    private ?int $id = null;
+
+    #[ORM\Column]
+    #[TranslatableField]
+    protected array $name = [];
+
+    #[ORM\Column]
+    #[TranslatableField]
+    protected array $description = [];
+
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+}
+
+# Use product object
+$product = new Product();
+$product
+    ->setNameFr('Produit test')
+    ->setNameEn('Test product')
+    ->setDescriptionFr('Super produit test')
+    ->setDescriptionEn('Great test product')
+;
+
+// Display product name with the current locale
+echo $product->getName();
+
+// Display product name with the fr locale
+echo $product->getNameFr();
+
+// Display product name with the en locale
+echo $product->getNameEn();
+```
 
 ## Use in twig template
+```html
+// Display product name with the current locale
+<div>{{ product.name }}</div>
 
-## Make query on translatable field
+// Display product name with the fr locale
+<div>{{ product.nameFr }}</div>
+
+// Display product name with the en locale
+<div>{{ product.nameEn }}</div>
+```
+
+## Use form with translatable field
+```php
+<?php
+
+namespace App\Form;
+
+use App\Entity\Product;
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+
+class ProductType extends AbstractType
+{
+    public function buildForm(FormBuilderInterface $builder, array $options): void
+    {
+        $builder
+            ->add('name', TextType::class, [
+                'required' => true,
+                'label' => 'Name'
+            ])
+            ->add('description', TextareaType::class, [
+                'required' => true,
+                'label' => 'Description'
+            ])
+        ;
+    }
+
+    public function configureOptions(OptionsResolver $resolver): void
+    {
+        $resolver->setDefaults([
+            'data_class' => Product::class,
+        ]);
+    }
+}
+```
