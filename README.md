@@ -148,13 +148,13 @@ $product
     ->setDescriptionEn('Great test product')
 ;
 
-// Display product name with the current locale
+// Display product name with current locale
 echo $product->getName();
 
-// Display product name with the fr locale
+// Display product name with fr locale
 echo $product->getNameFr();
 
-// Display product name with the en locale
+// Display product name with en locale
 echo $product->getNameEn();
 ```
 
