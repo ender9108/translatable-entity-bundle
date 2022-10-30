@@ -40,7 +40,7 @@ translatable_entity:
 In your entity class
 * Create your entity
     * Declare translatable fields in json
-* Extends EnderLab\TranslatableEntity\Entity\TranslatableEntity
+* Extends EnderLab\TranslatableEntityBundle\Entity\TranslatableEntity
 * Add attribute #[TranslatableField] on translatable field
 * Remove getters and setters for translatable properties 
 
@@ -51,8 +51,8 @@ namespace App\Entity;
 
 use App\Repository\ProductRepository;
 use Doctrine\ORM\Mapping as ORM;
-use EnderLab\TranslatableEntity\Entity\TranslatableEntity;
-use EnderLab\TranslatableEntity\Attributes\TranslatableField;
+use EnderLab\TranslatableEntityBundle\Entity\TranslatableEntity;
+use EnderLab\TranslatableEntityBundle\Attributes\TranslatableField;
 
 #[ORM\Entity(repositoryClass: ProductRepository::class)]
 - class Product

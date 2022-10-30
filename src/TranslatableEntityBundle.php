@@ -1,7 +1,7 @@
 <?php
 namespace EnderLab\TranslatableEntityBundle;
 
-use EnderLab\TranslatableEntity\DependencyInjection\TranslatableEntityExtension;
+use EnderLab\TranslatableEntityBundle\DependencyInjection\TranslatableEntityExtension;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
