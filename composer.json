@@ -1,0 +1,34 @@
+{
+  "name": "enderlab/translatable-entity-bundle",
+  "version": "1.0.0",
+  "type": "symfony-bundle",
+  "description": "Translate entity field",
+  "keywords": ["translation", "entity", "symfony", "bundle", "ender"],
+  "license": "MIT",
+  "prefer-stable": true,
+  "minimum-stability": "dev",
+  "authors": [
+    {
+      "name": "Alexandre Berthelot",
+      "email": "alexandreberthelot9108@gmail.com",
+      "homepage": "https://github.com/ender9108"
+    }
+  ],
+  "require": {
+    "php": ">=8.0",
+    "ext-intl": "*",
+    "scienta/doctrine-json-functions": "^5.2"
+  },
+  "autoload": {
+    "psr-4": {
+      "EnderLab\\TranslatableEntityBundle\\": "src"
+    }
+  },
+  "config": {
+    "platform": {
+      "php": "8.0.25"
+    },
+    "optimize-autoloader": true,
+    "sort-packages": true
+  }
+}
