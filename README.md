@@ -1,7 +1,7 @@
 # Translatable Entity
 
-[![License](http://poser.pugx.org/enderlab/translatable-entity/license)](https://packagist.org/packages/enderlab/translatable-entity)
-[![Total Downloads](http://poser.pugx.org/enderlab/translatable-entity/downloads)](https://packagist.org/packages/enderlab/translatable-entity)
+[![License](http://poser.pugx.org/enderlab/translatable-entity-bundle/license)](https://packagist.org/packages/enderlab/translatable-entity-bundle)
+[![Total Downloads](http://poser.pugx.org/enderlab/translatable-entity-bundle/downloads)](https://packagist.org/packages/enderlab/translatable-entity-bundle)
 
 | /!\ Documentation in progress /!\
 
