@@ -54,6 +54,13 @@ use Doctrine\ORM\Mapping as ORM;
 use EnderLab\TranslatableEntityBundle\Entity\TranslatableEntity;
 use EnderLab\TranslatableEntityBundle\Attributes\TranslatableField;
 
+# To help the autocompletion of your ide, you can add the following comments
++ /**
++  * @method string getName()
++  * @method Product setName(?string $name)
++  * @method string getDescription()
++  * @method Product setDescription(?string $description)
++  */
 #[ORM\Entity(repositoryClass: ProductRepository::class)]
 - class Product
 + class Product extends TranslatableEntity
@@ -99,48 +106,6 @@ use EnderLab\TranslatableEntityBundle\Attributes\TranslatableField;
 -       
 -       return $this 
 -  }
-}
-```
-
-To help the autocompletion of your ide, you can add the following comments
-
-```diff
-# Product class
-<?php
-
-namespace App\Entity;
-
-use App\Repository\ProductRepository;
-use Doctrine\ORM\Mapping as ORM;
-use EnderLab\TranslatableEntityBundle\Attributes\TranslatableField;
-use EnderLab\TranslatableEntityBundle\Entity\TranslatableEntity;
-
-+ /**
-+  * @method string getName()
-+  * @method Product setName(?string $name)
-+  * @method string getDescription()
-+  * @method Product setDescription(?string $description)
-+  */
-#[ORM\Entity(repositoryClass: ProductRepository::class)]
-class Product extends TranslatableEntity
-{
-    #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column]
-    private ?int $id = null;
-
-    #[ORM\Column]
-    #[TranslatableField]
-    protected array $name = [];
-
-    #[ORM\Column]
-    #[TranslatableField]
-    protected array $description = [];
-
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
 }
 ```
 
