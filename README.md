@@ -103,6 +103,7 @@ use EnderLab\TranslatableEntityBundle\Attributes\TranslatableField;
 ```
 
 To help the autocompletion of your ide, you can add the following comments
+
 ```diff
 # Product class
 <?php

@@ -17,7 +17,7 @@ class TranslatableEntityExtension extends Extension implements PrependExtensionI
      */
     public function load(array $configs, ContainerBuilder $container)
     {
-        $loader =new YamlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
+        $loader =new YamlFileLoader($container, new FileLocator(__DIR__ . '/../../config/'));
         $loader->load('services.yaml');
 
         $config = $this->processConfiguration(new Configuration(), $configs);
@@ -34,5 +34,10 @@ class TranslatableEntityExtension extends Extension implements PrependExtensionI
         $doctrineConfig['orm']['dql']['string_functions']['JSON_SEARCH'] = 'Scienta\\DoctrineJsonFunctions\\Query\\AST\\Functions\\Mysql\\JsonSearch';
 
         $container->prependExtensionConfig('doctrine', $doctrineConfig);
+
+        $twigConfig = [];
+        $twigConfig['form_themes'] = ['form/translatable_entity_field.html.twig'];
+
+        $container->prependExtensionConfig('twig', $twigConfig);
     }
 }
