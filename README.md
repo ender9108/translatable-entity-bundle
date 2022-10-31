@@ -142,6 +142,7 @@ class Product extends TranslatableEntity
         return $this->id;
     }
 }
+```
 
 ## Use in your code
 ```php
