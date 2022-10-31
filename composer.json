@@ -3,7 +3,16 @@
   "version": "1.0.0",
   "type": "symfony-bundle",
   "description": "Translate entity field",
-  "keywords": ["translation", "entity", "symfony", "bundle", "ender"],
+  "keywords": [
+    "translation",
+    "translatable",
+    "translate entity",
+    "entity",
+    "symfony",
+    "symfony bundle",
+    "bundle",
+    "enderlab"
+  ],
   "license": "MIT",
   "prefer-stable": true,
   "minimum-stability": "dev",
