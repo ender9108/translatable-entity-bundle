@@ -225,15 +225,20 @@ class ProductType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            # Display value on field with the current locale
+            # Display value on field with current locale
             ->add('name', TextType::class, [
                 'required' => true,
                 'label' => 'Name'
             ])
-            # Display value on field with the current locale
-            ->add('description', TextareaType::class, [
+            # Display value on field with fr locale
+            ->add('nameFr', TextType::class, [
                 'required' => true,
-                'label' => 'Description'
+                'label' => 'Name'
+            ])
+            # Display value on field with en locale
+            ->add('nameFr', TextType::class, [
+                'required' => true,
+                'label' => 'Name'
             ])
         ;
     }
