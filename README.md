@@ -111,7 +111,7 @@ use EnderLab\TranslatableEntityBundle\Attributes\TranslatableField;
 
 ## Use in your code
 ```php
-# Product class
+# App\Entity\Product class
 <?php
 
 namespace App\Entity;
@@ -164,20 +164,22 @@ echo $product->getNameEn();
 
 ## Use in twig template
 ```html
-// Display product name with the current locale
+<!-- File templates/product/index.html.twig -->
+
+<!-- Display product name with the current locale -->
 <div>{{ product.name }}</div>
 
-// Display product name with the fr locale
+<!-- Display product name with the fr locale -->
 <div>{{ product.nameFr }}</div>
 
-// Display product name with the en locale
+<!-- Display product name with the en locale -->
 <div>{{ product.nameEn }}</div>
 ```
 
 ## Use form with translatable field
 ```php
 <?php
-
+# Class App\Form\ProductType
 namespace App\Form;
 
 use App\Entity\Product;
