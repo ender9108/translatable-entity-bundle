@@ -75,6 +75,8 @@ class LocaleSubscriber implements EventSubscriberInterface
         CurrentLocaleService::setFallbackLocale($this->defaultLocale);
         CurrentLocaleService::setCurrentTimezone($timezone);
         CurrentLocaleService::setFallbackTimezone($this->defaultTimezone);
+        CurrentLocaleService::setAvailableLocales($this->availablesLocales);
+        CurrentLocaleService::setAvailableTimezones($this->availablesTimezones);
 
         $request->setLocale($locale);
         $request->getSession()->set('_locale', $locale);

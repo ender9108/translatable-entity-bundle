@@ -1,0 +1,7 @@
+<div data-controller="translatable-field" data-translatable-field-available-locales-value="{{ availableLocales()|json_encode }}">
+    {% for key, locale in availableLocales() %}
+        <div class="form-element{{ key > 0 ? ' d-none' }}" data-locale="{{ locale }}">
+            {{ form_row(form[fieldName ~ (locale|lower|capitalize)]) }}
+        </div>
+    {% endfor %}
+</div>

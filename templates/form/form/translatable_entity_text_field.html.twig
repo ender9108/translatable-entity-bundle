@@ -1,0 +1,7 @@
+
+{%- block translatable_field_row -%}
+    {%- set force_error = true -%}
+    <div data-controller="translatable">
+        {{- block('form_row') -}}
+    </div>
+{%- endblock -%}

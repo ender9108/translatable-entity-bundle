@@ -3,16 +3,7 @@
   "version": "1.0.0",
   "type": "symfony-bundle",
   "description": "Translate entity field",
-  "keywords": [
-    "translation",
-    "translatable",
-    "translate entity",
-    "entity",
-    "symfony",
-    "symfony bundle",
-    "bundle",
-    "enderlab"
-  ],
+  "keywords": ["translation", "entity", "symfony", "bundle", "ender"],
   "license": "MIT",
   "prefer-stable": true,
   "minimum-stability": "dev",
@@ -24,9 +15,10 @@
     }
   ],
   "require": {
-    "php": ">=8.0",
+    "php": ">=8.1",
     "ext-intl": "*",
-    "scienta/doctrine-json-functions": "^5.2"
+    "scienta/doctrine-json-functions": "^5.2",
+    "symfony/webpack-encore-bundle": "^1.16"
   },
   "autoload": {
     "psr-4": {
@@ -34,9 +26,6 @@
     }
   },
   "config": {
-    "platform": {
-      "php": "8.0.25"
-    },
     "optimize-autoloader": true,
     "sort-packages": true
   }

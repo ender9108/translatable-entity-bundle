@@ -1,6 +1,6 @@
 <?php
 
-namespace EnderLab\TranslatableEntityBundle\Entity;
+namespace EnderLab\TranslatableEntityBundle\Traits;
 
 use EnderLab\TranslatableEntityBundle\Attributes\TranslatableField;
 use EnderLab\TranslatableEntityBundle\Exception\TranslatableException;
@@ -10,9 +10,9 @@ use JetBrains\PhpStorm\Pure;
 use ReflectionClass;
 use ReflectionProperty;
 
-abstract class TranslatableEntity
+trait TranslatableEntityTrait
 {
-    protected const DEFAULT_VALUE = 'to_translate';
+    protected static string $DEFAULT_VALUE = '';
     protected array $attributes = [];
     protected bool $initialized = false;
 
@@ -34,7 +34,8 @@ abstract class TranslatableEntity
         $locale = $this->getCurrentLocale();
 
         $regex  = '/^('.(implode('|', array_keys($this->attributes))).'|'.(implode('|', array_map('ucfirst', array_keys($this->attributes)))).')';
-        $regex .= '([A-Z][a-z])?$/';
+        $regex .= '(\w*)?$/';
+        //'([A-Z][a-z])?$/';
         preg_match_all($regex, $property, $matches);
 
         if (
@@ -62,7 +63,8 @@ abstract class TranslatableEntity
         $locale = $this->getCurrentLocale();
 
         $regex  = '/^('.(implode('|', array_keys($this->attributes))).'|'.(implode('|', array_map('ucfirst', array_keys($this->attributes)))).')';
-        $regex .= '([A-Z][a-z])?$/';
+        $regex .= '(\w*)?$/';
+        //'([A-Z][a-z])?$/';
         preg_match_all($regex, $property, $matches);
 
         if (
@@ -95,7 +97,7 @@ abstract class TranslatableEntity
      * set[Field]Fr(value) - set value to field with "fr" locale
      * set[Field]En(value) - set value to field with "en" locale
      */
-    public function __call($name, $arguments)
+    public function __call(string $name, array $arguments)
     {
         $this->initAttributes();
         $prefix = null;
@@ -104,7 +106,8 @@ abstract class TranslatableEntity
 
         $regex  = '/^(get|set)?';
         $regex .= '('.(implode('|', array_keys($this->attributes))).'|'.(implode('|', array_map('ucfirst', array_keys($this->attributes)))).')';
-        $regex .= '([A-Z][a-z])?$/';
+        $regex .= '(\w*)?$/';
+        //'([A-Z][a-z])?$/';
         preg_match_all($regex, $name, $matches);
 
         if (
@@ -156,7 +159,7 @@ abstract class TranslatableEntity
         return false;
     }
 
-    private function getValue($locale, $property): string
+    private function getValue($locale, $property): string|array
     {
         /** @var ReflectionProperty $reflectionProperty */
         $reflectionProperty = $this->attributes[$property];
@@ -164,11 +167,15 @@ abstract class TranslatableEntity
 
         $data = $reflectionProperty->getValue($this);
 
+        if ($locale === 'all') {
+            return $data;
+        }
+
         if (!isset($data[$locale])) {
             if ($_ENV['APP_ENV'] === 'dev') {
-                return self::DEFAULT_VALUE;
+                return self::$DEFAULT_VALUE;
             } else {
-                return !isset($data[$this->getFallbackLocale()]) ? self::DEFAULT_VALUE : $data[$this->getFallbackLocale()];
+                return !isset($data[$this->getFallbackLocale()]) ? self::$DEFAULT_VALUE : $data[$this->getFallbackLocale()];
             }
         }
 
@@ -182,7 +189,12 @@ abstract class TranslatableEntity
         $reflectionProperty->setAccessible(true);
 
         $data = $reflectionProperty->getValue($this);
-        $data[$locale] = $value;
+
+        if ($locale === 'all') {
+            $data = $value;
+        } else {
+            $data[$locale] = $value;
+        }
 
         $reflectionProperty->setValue($this, $data);
 

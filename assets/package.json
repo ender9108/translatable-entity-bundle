@@ -1,0 +1,28 @@
+{
+    "name": "@enderlab/translatable-entity-bundle",
+    "description": "Translatable field form switcher",
+    "main": "dist/controller.js",
+    "module": "dist/controller.js",
+    "version": "1.0.0",
+    "license": "MIT",
+    "symfony": {
+        "controllers": {
+            "translatable": {
+                "main": "dist/controller.js",
+                "webpackMode": "eager",
+                "fetch": "eager",
+                "enabled": true
+            }
+        }
+    },
+    "dependencies": {
+        "@fortawesome/fontawesome-free": "^6.2.1",
+        "bootstrap": "^5.2.*"
+    },
+    "peerDependencies": {
+        "@hotwired/stimulus": "^3.0.0"
+    },
+    "devDependencies": {
+        "@hotwired/stimulus": "^3.0.0"
+    }
+}
